@@ -1,8 +1,6 @@
 package client;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class TCPClient {
@@ -26,10 +24,40 @@ public class TCPClient {
         }
         String hostName = args[0];
         int port = Integer.parseInt(args[1]);
-
         TCPClient tcpClient = new TCPClient(hostName, port);
-        tcpClient.doSomething();
 
+        String fileName = null;
+        if(args.length>2){
+            fileName = args[2];
+        }
+
+        if(fileName != null){
+            tcpClient.copyFile(fileName);
+        } else{
+            tcpClient.doSomething();
+        }
+
+
+    }
+
+    private void copyFile(String fileName) throws IOException {
+        //create port
+        Socket socket = new Socket(this.hostname, this.port);
+        //get file from FileInputStream
+        FileInputStream fis = new FileInputStream(fileName);
+        //get outputStream from socket
+        OutputStream os = socket.getOutputStream();
+
+
+        int read = 0;
+        do{
+            //read file from FileInputStream
+            read = fis.read();
+            if (read != -1){
+                //write content in OutputStream
+                os.write(read);
+            }
+        } while(read != -1);
     }
 
     private void doSomething() throws IOException {
@@ -37,6 +65,7 @@ public class TCPClient {
         Socket socket = new Socket(this.hostname, this.port);
         //write something in outputStream
         socket.getOutputStream().write(FUNNY_MESSAGE.getBytes());
+
         //read from socket via inputStream
         InputStream is = socket.getInputStream();
         //buffer
