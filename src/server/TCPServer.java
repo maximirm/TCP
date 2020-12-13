@@ -1,7 +1,6 @@
 package server;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -18,17 +17,41 @@ public class TCPServer {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         TCPServer tcpServer = new TCPServer(PORT_NUMBER);
-        tcpServer.doSomething();
+
+        if (args.length == 1) {
+            tcpServer.readFile(args[0]);
+        } else {
+            tcpServer.doSomething();
+        }
     }
 
-    private void doSomething() throws IOException, InterruptedException {
+    private  Socket acceptSocket() throws IOException {
         //create socket
         ServerSocket srvSocket = new ServerSocket(this.port);
         System.out.println("server socket created");
-
         //open port -> Socket represents connection with the connected client
-        Socket socket = srvSocket.accept();
-        System.out.println("connection to client accepted");
+        return srvSocket.accept();
+    }
+
+    private void readFile(String fileName) throws IOException {
+        Socket socket = this.acceptSocket();
+        FileOutputStream fos = new FileOutputStream(fileName);
+        InputStream is = socket.getInputStream();
+        int read = 0;
+        do{
+            //read from inputStream
+            read = is.read();
+            if (read != -1){
+                //write into FileOutputStream
+                fos.write(read);
+            }
+        } while (read != -1);
+
+
+    }
+
+    private void doSomething() throws IOException, InterruptedException {
+        Socket socket = this.acceptSocket();
 
         //read from socket e.g. GET/index.. / ignore result in this example
         socket.getInputStream().read();
@@ -45,7 +68,7 @@ public class TCPServer {
         //put process to sleep for a while
         Thread.sleep(5000);
         System.out.println("woke up");
-        
+
         //close outputStream
         os.close();
     }

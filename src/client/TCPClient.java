@@ -27,16 +27,15 @@ public class TCPClient {
         TCPClient tcpClient = new TCPClient(hostName, port);
 
         String fileName = null;
-        if(args.length>2){
+        if (args.length > 2) {
             fileName = args[2];
         }
 
-        if(fileName != null){
+        if (fileName != null) {
             tcpClient.copyFile(fileName);
-        } else{
+        } else {
             tcpClient.doSomething();
         }
-
 
     }
 
@@ -48,16 +47,17 @@ public class TCPClient {
         //get outputStream from socket
         OutputStream os = socket.getOutputStream();
 
-
         int read = 0;
-        do{
+        do {
             //read file from FileInputStream
             read = fis.read();
-            if (read != -1){
+            if (read != -1) {
                 //write content in OutputStream
                 os.write(read);
             }
-        } while(read != -1);
+        } while (read != -1);
+        //tell server that we're done
+        os.close();
     }
 
     private void doSomething() throws IOException {
