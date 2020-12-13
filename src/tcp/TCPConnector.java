@@ -6,18 +6,20 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class TCPConnector implements Client,Server, Connection{
+public class TCPConnector implements Client, Server, Connection {
 
     private Socket socket;
 
     @Override
     public Connection connect(String hostName, int port) throws IOException {
+
         this.socket = new Socket(hostName, port);
         return this;
     }
 
     @Override
     public Connection acceptConnection(int port) throws IOException {
+
         ServerSocket srvSocket = new ServerSocket(port);
         System.out.println("server socket created");
         //open port -> Socket represents connection with the connected client
@@ -27,11 +29,13 @@ public class TCPConnector implements Client,Server, Connection{
 
     @Override
     public OutputStream getOutputStream() throws IOException {
+
         return this.socket.getOutputStream();
     }
 
     @Override
     public InputStream getInputStream() throws IOException {
+
         return this.socket.getInputStream();
     }
 }

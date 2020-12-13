@@ -2,7 +2,7 @@ package sensordataexchange;
 
 import java.io.*;
 
-public class SensorDataExchanger implements SensorDataSender, SensorDataReceiver{
+public class SensorDataExchanger implements SensorDataSender, SensorDataReceiver {
 
     @Override
     public void sendSensorData(SensorData data, OutputStream outputStream) throws IOException {
@@ -23,7 +23,6 @@ public class SensorDataExchanger implements SensorDataSender, SensorDataReceiver
         float value = dais.readFloat();
         String sensorName = dais.readUTF();
         return new SensorDataImpl(timeStamp, value, sensorName);
-
 
     }
 }

@@ -7,7 +7,7 @@ public interface SensorDataSender {
 
     /**
      * send data via outputStream
-     * @param data dataObject
+     * @param data         dataObject
      * @param outputStream outputStream
      */
     void sendSensorData(SensorData data, OutputStream outputStream) throws IOException;

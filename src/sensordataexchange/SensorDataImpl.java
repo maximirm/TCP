@@ -1,12 +1,13 @@
 package sensordataexchange;
 
-class SensorDataImpl implements SensorData{
+class SensorDataImpl implements SensorData {
 
     private final long timeStamp;
     private final float value;
     private final String sensorName;
 
     public SensorDataImpl(long timeStamp, float value, String sensorName) {
+
         this.timeStamp = timeStamp;
         this.value = value;
         this.sensorName = sensorName;
