@@ -3,6 +3,7 @@ package server;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 
 public class TCPServer {
 
@@ -34,7 +35,9 @@ public class TCPServer {
         long timeStamp = dais.readLong();
         float value = dais.readFloat();
         String sensorName = dais.readUTF();
-        System.out.println("timeStamp: " + timeStamp + System.lineSeparator()
+
+        Date date = new Date(timeStamp);
+        System.out.println("timeStamp: " + date + System.lineSeparator()
                 + "value: " + value + System.lineSeparator() + "sensorName: " + sensorName);
 
     }
