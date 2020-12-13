@@ -1,7 +1,7 @@
 package util;
 
-import client.TCPClient;
-import server.TCPServer;
+import tcp.TCPClient;
+import tcp.TCPServer;
 
 import java.io.IOException;
 
