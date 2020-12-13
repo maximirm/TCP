@@ -34,11 +34,13 @@ public class TCPClient {
         if (fileName != null) {
             tcpClient.copyFile(fileName);
         } else {
-            tcpClient.doSomething();
+            tcpClient.sendSensorDate(System.currentTimeMillis(),42,"sensor 420");
+//            tcpClient.doSomething();
         }
 
     }
 
+    //FileInputStream
     private void copyFile(String fileName) throws IOException {
         //create port
         Socket socket = new Socket(this.hostname, this.port);
@@ -60,6 +62,7 @@ public class TCPClient {
         os.close();
     }
 
+    //ByteArrayOutputStream
     private void doSomething() throws IOException {
         //create port
         Socket socket = new Socket(this.hostname, this.port);
@@ -81,6 +84,20 @@ public class TCPClient {
 
         //write everything from ByteArrayOutputStream into String
         System.out.println("received: " + baos.toString());
+
+    }
+
+    //DataOutputStream
+    public void sendSensorDate(long timeStamp, float value, String sensorName) throws IOException {
+
+        Socket socket = new Socket(this.hostname, this.port);
+
+        OutputStream os = socket.getOutputStream();
+        DataOutputStream daos = new DataOutputStream(os);
+        daos.writeLong(timeStamp);
+        daos.writeFloat(value);
+        daos.writeUTF(sensorName);
+        os.close();
 
     }
 
